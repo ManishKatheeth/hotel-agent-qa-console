@@ -1,8 +1,15 @@
 import Link from "next/link";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { diffRuns, runEval } from "../lib/eval";
+import { mockAgent } from "../lib/agent";
 import { kbVersions } from "../lib/kb";
 import { buildQueue } from "../lib/queue";
-import type { CaseResult, Category, FailureType, Metrics } from "../lib/types";
+import { derivedChecks, diffKb, staleSweep } from "../lib/kbdiff";
+import { replay } from "../lib/replay";
+import { evaluateGate, sweepId } from "../lib/gate";
+import calls from "../../evals/calls.json";
+import type { Call, CaseResult, Category, FailureType, Metrics, ReplayItem } from "../lib/types";
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;
 
@@ -65,12 +72,72 @@ function CaseRow({ c }: { c: CaseResult }) {
   );
 }
 
+interface ModelRun {
+  model?: string;
+  runs: number;
+  live: { metrics: Metrics };
+  draft: { metrics: Metrics };
+  replay: ReplayItem[];
+}
+
+/** Results of `npm run eval:model`, if someone has run it. Never calls a model at render time. */
+function readModelRun(): ModelRun | null {
+  try {
+    const file = join(process.cwd(), "evals", "results.model.json");
+    return existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as ModelRun) : null;
+  } catch {
+    return null;
+  }
+}
+
+function ReplayRow({ r }: { r: ReplayItem }) {
+  const text = (a: ReplayItem["live"]) => (a.outcome === "handoff" ? "Hands off to the front desk" : a.reply);
+  return (
+    <tr className="border-t align-top" style={{ borderColor: "var(--line)" }}>
+      <td className="py-2 pr-3 text-xs muted">{r.id}</td>
+      <td className="py-2 pr-3 text-sm">{r.utterance}</td>
+      <td className="py-2 pr-3 text-sm muted">{text(r.live)}</td>
+      <td className="py-2 pr-3 text-sm">{text(r.draft)}</td>
+      <td className={`py-2 text-sm ${r.kind === "needs_review" ? "warn" : "good"}`}>{r.reason}</td>
+    </tr>
+  );
+}
+
+function ReplayTable({ rows }: { rows: ReplayItem[] }) {
+  return (
+    <table className="mt-2 w-full text-left">
+      <thead>
+        <tr className="muted text-xs uppercase">
+          <th className="pr-3 pb-1">Call</th>
+          <th className="pr-3 pb-1">Guest says</th>
+          <th className="pr-3 pb-1">Live answers</th>
+          <th className="pr-3 pb-1">Draft answers</th>
+          <th className="pb-1">Why it is listed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <ReplayRow key={r.id} r={r} />
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 export default async function Page({ searchParams }: { searchParams: Promise<{ kb?: string }> }) {
   const { kb } = await searchParams;
   const kbId = kb === "draft" ? "draft" : "live";
   const [live, draft] = await Promise.all([runEval("live"), runEval("draft")]);
   const current = kbId === "draft" ? draft : live;
   const diff = diffRuns(live, draft);
+  const kbDiff = diffKb(kbVersions.live.entries, kbVersions.draft.entries);
+  const sweep = staleSweep(kbDiff, kbVersions.draft.entries);
+  const checks = derivedChecks(kbDiff);
+  const replayed = await replay(calls as Call[], kbDiff, kbVersions.live.entries, kbVersions.draft.entries, mockAgent);
+  const gate = evaluateGate({ live, draft, diff, replay: replayed, sweep, approvals: new Set() });
+  const review = replayed.filter((r) => r.kind === "needs_review");
+  const expected = replayed.filter((r) => r.kind === "expected_update");
+  const modelRun = readModelRun();
   const queue = buildQueue(current.cases);
   const failures = current.cases.filter((c) => !c.pass);
   const m = current.metrics;
@@ -134,6 +201,47 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ k
         </div>
       </section>
 
+      <section className="card mt-6 p-4" aria-labelledby="review">
+        <h2 id="review" className="text-lg font-semibold">
+          Calls to review before publish
+        </h2>
+        <p className="muted mt-1 text-sm">
+          No hand-written answers needed. The console compares the two knowledge bases, then replays {replayed.length}{" "}
+          recent calls on both. {checks.length} checks come straight from the edit (an old value must disappear, a new
+          one must appear). Of {replayed.length} calls, {review.length} need a look and {expected.length} changed
+          exactly as the edit intended.
+        </p>
+        <h3 className="mt-3 text-sm font-semibold">Needs your confirmation ({review.length})</h3>
+        <ReplayTable rows={review} />
+        <h3 className="mt-4 text-sm font-semibold">Changed as the edit intended ({expected.length})</h3>
+        <ReplayTable rows={expected} />
+        {sweep.length > 0 && (
+          <>
+            <h3 className="mt-4 text-sm font-semibold">Old values still stated elsewhere</h3>
+            <ul className="mt-1 list-disc pl-5 text-sm">
+              {sweep.map((s) => (
+                <li key={sweepId(s)}>
+                  {s.fact} was removed from {s.entryId} but {s.foundIn} still says it
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
+
+      {modelRun && (
+        <section className="card mt-6 p-4" aria-labelledby="model">
+          <h2 id="model" className="text-lg font-semibold">
+            Real model run ({modelRun.model ?? "model"}, {modelRun.runs} runs per case)
+          </h2>
+          <p className="mt-1 text-sm">
+            Golden set pass rate live {pct(modelRun.live.metrics.passRate)} / draft {pct(modelRun.draft.metrics.passRate)}.
+            Replay: {modelRun.replay.filter((r) => r.kind === "needs_review").length} of {modelRun.replay.length} calls need
+            review.
+          </p>
+        </section>
+      )}
+
       <section className="card mt-6 p-4" aria-labelledby="diff">
         <h2 id="diff" className="text-lg font-semibold">
           Publish check: draft vs live
@@ -143,10 +251,15 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ k
           <span className="bad font-semibold">{diff.regressed.length} regressed</span> ·{" "}
           <span className="warn font-semibold">{diff.stillFailing.length} still failing</span> · {diff.stillPassing} unchanged
         </p>
-        {diff.regressed.length > 0 && (
-          <p className="bad mt-2 text-sm font-medium">
-            Publish blocked: the draft breaks {diff.regressed.length} call{diff.regressed.length > 1 ? "s" : ""} that passed before.
-          </p>
+        {gate.blocked && (
+          <div className="bad mt-2 text-sm font-medium">
+            Publish blocked:
+            <ul className="mt-1 list-disc pl-5">
+              {gate.reasons.map((r) => (
+                <li key={r}>{r}</li>
+              ))}
+            </ul>
+          </div>
         )}
         <table className="mt-3 w-full text-left">
           <thead>
@@ -245,7 +358,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ k
       </section>
 
       <footer className="muted mt-8 text-xs">
-        Agent: deterministic mock (run <code>npm run eval:model</code> to score a real model on the same set). Hotel,
+        Agent: deterministic mock{modelRun ? " (a real-model run is summarized above)" : " (run npm run eval:model to score a real model on the same set)"}. Hotel,
         guests and policies are fictional. No company branding or proprietary data is used.
       </footer>
     </main>

@@ -1,4 +1,5 @@
 import type { AgentResult, CaseResult, GoldenCase } from "./types";
+import { containsFact } from "./facts";
 
 export function grade(c: GoldenCase, result: AgentResult): CaseResult {
   const base = { id: c.id, utterance: c.utterance, category: c.category, result };
@@ -24,8 +25,8 @@ export function grade(c: GoldenCase, result: AgentResult): CaseResult {
     if (result.outcome === "action") {
       return { ...base, pass: false, failure: "wrong_action", detail: "treated a question as a work order" };
     }
-    const missing = (c.expect.facts ?? []).filter((f) => !reply.includes(f.toLowerCase()));
-    const stale = (c.expect.forbidden ?? []).filter((f) => reply.includes(f.toLowerCase()));
+    const missing = (c.expect.facts ?? []).filter((f) => !containsFact(result.reply, f));
+    const stale = (c.expect.forbidden ?? []).filter((f) => containsFact(result.reply, f));
     if (missing.length === 0 && stale.length === 0) return { ...base, pass: true };
     const parts = [
       missing.length ? `missing ${missing.join(", ")}` : "",

@@ -56,6 +56,11 @@ export interface CaseResult {
   failure?: FailureType;
   detail?: string;
   result: AgentResult;
+  /** set when the case was run several times: how many runs failed out of how many */
+  failures?: number;
+  runs?: number;
+  /** failed in some runs but not in most; reported, never blocks a publish */
+  flaky?: boolean;
 }
 
 export interface Metrics {
@@ -64,8 +69,10 @@ export interface Metrics {
   passRate: number;
   /** answer cases passed / answer cases */
   answerAccuracy: number;
-  /** handoff cases where the agent answered or acted instead / handoff cases */
+  /** handoff cases where the agent answered instead of handing off / handoff cases */
   unsafeGuessRate: number;
+  /** cases where a work order was wrongly opened, or the wrong one / all cases */
+  wrongActionRate: number;
   /** answer cases with a wrong or stale fact / answer cases */
   wrongFactRate: number;
   actionAccuracy: number;
@@ -92,4 +99,50 @@ export interface QueueItem {
   utterances: string[];
   suggestedKeywords: string[];
   status: "needs_manager_answer";
+}
+
+export interface Call {
+  id: string;
+  utterance: string;
+}
+
+export type EntryStatus = "added" | "removed" | "changed" | "unchanged";
+
+export interface EntryDiff {
+  id: string;
+  status: EntryStatus;
+  keywordsAdded: string[];
+  keywordsRemoved: string[];
+  /** canonical facts (prices, times, quantities) that left / entered the answer */
+  factsRemoved: string[];
+  factsAdded: string[];
+}
+
+export interface KbDiff {
+  entries: EntryDiff[];
+}
+
+export interface DerivedCheck {
+  entryId: string;
+  type: "forbid" | "require";
+  fact: string;
+}
+
+export interface SweepFinding {
+  /** entry that dropped the value */
+  entryId: string;
+  fact: string;
+  /** draft entry that still contains it */
+  foundIn: string;
+}
+
+export type ReplayKind = "unchanged" | "expected_update" | "needs_review";
+
+export interface ReplayItem {
+  id: string;
+  utterance: string;
+  kind: ReplayKind;
+  reason?: string;
+  live: AgentResult;
+  draft: AgentResult;
 }
