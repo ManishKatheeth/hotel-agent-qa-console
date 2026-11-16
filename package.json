@@ -1,0 +1,29 @@
+{
+  "name": "hotel-agent-qa-console",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent PM case study: a report card and regression console for hotel AI agents (synthetic data).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "eval": "tsx scripts/eval.ts",
+    "eval:model": "tsx scripts/eval.ts --model",
+    "test": "tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "ai": "^7.0.173",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  }
+}

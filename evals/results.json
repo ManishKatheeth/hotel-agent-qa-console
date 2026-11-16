@@ -1,0 +1,1186 @@
+{
+  "agent": "mock",
+  "live": {
+    "kb": "live",
+    "metrics": {
+      "total": 40,
+      "passed": 33,
+      "passRate": 0.825,
+      "answerAccuracy": 0.75,
+      "unsafeGuessRate": 0.18181818181818182,
+      "wrongFactRate": 0.15,
+      "actionAccuracy": 1,
+      "byCategory": {
+        "answer": {
+          "passed": 15,
+          "total": 20
+        },
+        "handoff": {
+          "passed": 9,
+          "total": 11
+        },
+        "action": {
+          "passed": 9,
+          "total": 9
+        }
+      }
+    },
+    "cases": [
+      {
+        "id": "a01",
+        "utterance": "What time is checkout?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+        },
+        "pass": true
+      },
+      {
+        "id": "a02",
+        "utterance": "How much is a late checkout?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing $40; stale $25 (from \"checkout\")"
+      },
+      {
+        "id": "a03",
+        "utterance": "Is late check out possible tomorrow?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+        },
+        "pass": true
+      },
+      {
+        "id": "a04",
+        "utterance": "What time can I check in?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkin",
+          "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+        },
+        "pass": true
+      },
+      {
+        "id": "a05",
+        "utterance": "Can I check in early?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkin",
+          "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+        },
+        "pass": true
+      },
+      {
+        "id": "a06",
+        "utterance": "How much is parking per night?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "parking",
+          "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing $38; stale $32 (from \"parking\")"
+      },
+      {
+        "id": "a07",
+        "utterance": "Where can I park my big truck?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "parking",
+          "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+        },
+        "pass": true
+      },
+      {
+        "id": "a08",
+        "utterance": "When is breakfast on weekdays?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "breakfast",
+          "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+        },
+        "pass": true
+      },
+      {
+        "id": "a09",
+        "utterance": "What are breakfast hours on Saturday?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "breakfast",
+          "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+        },
+        "pass": true
+      },
+      {
+        "id": "a10",
+        "utterance": "What are the pool hours?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pool",
+          "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+        },
+        "pass": true
+      },
+      {
+        "id": "a11",
+        "utterance": "Can my kids swim without me?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pool",
+          "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+        },
+        "pass": true
+      },
+      {
+        "id": "a12",
+        "utterance": "Are dogs allowed?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pets",
+          "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+        },
+        "pass": true
+      },
+      {
+        "id": "a13",
+        "utterance": "Is there a fee for a pet?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pets",
+          "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+        },
+        "pass": true
+      },
+      {
+        "id": "a14",
+        "utterance": "What is the wifi password?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "wifi",
+          "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+        },
+        "pass": true
+      },
+      {
+        "id": "a15",
+        "utterance": "What time does the airport shuttle stop running?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "shuttle",
+          "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to 11:00 PM."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing midnight; stale 11:00 pm (from \"shuttle\")"
+      },
+      {
+        "id": "a16",
+        "utterance": "How often does the shuttle come?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "shuttle",
+          "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to 11:00 PM."
+        },
+        "pass": true
+      },
+      {
+        "id": "a17",
+        "utterance": "Can I cancel my reservation for free?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "cancel",
+          "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+        },
+        "pass": true
+      },
+      {
+        "id": "a18",
+        "utterance": "Is the gym open at night?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "gym",
+          "reply": "The fitness room is open 24 hours with your room key."
+        },
+        "pass": true
+      },
+      {
+        "id": "a19",
+        "utterance": "Do you have EV chargers?",
+        "category": "answer",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": false,
+        "failure": "missed_answer",
+        "detail": "handed off a question the KB should cover"
+      },
+      {
+        "id": "a20",
+        "utterance": "Can I charge my Tesla at the hotel?",
+        "category": "answer",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": false,
+        "failure": "missed_answer",
+        "detail": "handed off a question the KB should cover"
+      },
+      {
+        "id": "h01",
+        "utterance": "I want a refund for last night.",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h02",
+        "utterance": "I'd like to file a complaint about noise from the next room.",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h03",
+        "utterance": "Do you have a room with a roll-in shower?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h04",
+        "utterance": "Can you extend my stay by two nights?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h05",
+        "utterance": "Can I smoke on my balcony?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h06",
+        "utterance": "Is there a laundromat nearby?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h07",
+        "utterance": "Do you have guest laundry?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h08",
+        "utterance": "Do you offer laundry service?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h09",
+        "utterance": "Can you hold my luggage after checkout?",
+        "category": "handoff",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+        },
+        "pass": false,
+        "failure": "unsafe_guess",
+        "detail": "answered from \"checkout\" instead of handing off"
+      },
+      {
+        "id": "h10",
+        "utterance": "Do you provide pool towels?",
+        "category": "handoff",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping"
+          },
+          "reply": "Happy to help with that. Which room are you in?"
+        },
+        "pass": false,
+        "failure": "wrong_action",
+        "detail": "opened a housekeeping work order instead of handing off"
+      },
+      {
+        "id": "h11",
+        "utterance": "I think I left my charger in room 410.",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "x01",
+        "utterance": "The AC in room 412 isn't working.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "412"
+          },
+          "reply": "Done. I've sent a maintenance request to room 412."
+        },
+        "pass": true
+      },
+      {
+        "id": "x02",
+        "utterance": "Can I get extra towels in 305?",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "305"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 305."
+        },
+        "pass": true
+      },
+      {
+        "id": "x03",
+        "utterance": "Our toilet is clogged, room 220.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "220"
+          },
+          "reply": "Done. I've sent a maintenance request to room 220."
+        },
+        "pass": true
+      },
+      {
+        "id": "x04",
+        "utterance": "Please send more pillows to room 118.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "118"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 118."
+        },
+        "pass": true
+      },
+      {
+        "id": "x05",
+        "utterance": "No hot water in 506.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "506"
+          },
+          "reply": "Done. I've sent a maintenance request to room 506."
+        },
+        "pass": true
+      },
+      {
+        "id": "x06",
+        "utterance": "There's a leak in the ceiling of room 331.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "331"
+          },
+          "reply": "Done. I've sent a maintenance request to room 331."
+        },
+        "pass": true
+      },
+      {
+        "id": "x07",
+        "utterance": "Can housekeeping clean my room? I'm in 207.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "207"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 207."
+        },
+        "pass": true
+      },
+      {
+        "id": "x08",
+        "utterance": "The light in 415 is out.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "415"
+          },
+          "reply": "Done. I've sent a maintenance request to room 415."
+        },
+        "pass": true
+      },
+      {
+        "id": "x09",
+        "utterance": "My shower doesn't work.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance"
+          },
+          "reply": "Happy to help with that. Which room are you in?"
+        },
+        "pass": true
+      }
+    ]
+  },
+  "draft": {
+    "kb": "draft",
+    "metrics": {
+      "total": 40,
+      "passed": 35,
+      "passRate": 0.875,
+      "answerAccuracy": 0.9,
+      "unsafeGuessRate": 0.2727272727272727,
+      "wrongFactRate": 0.1,
+      "actionAccuracy": 1,
+      "byCategory": {
+        "answer": {
+          "passed": 18,
+          "total": 20
+        },
+        "handoff": {
+          "passed": 8,
+          "total": 11
+        },
+        "action": {
+          "passed": 9,
+          "total": 9
+        }
+      }
+    },
+    "cases": [
+      {
+        "id": "a01",
+        "utterance": "What time is checkout?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $40, based on availability."
+        },
+        "pass": true
+      },
+      {
+        "id": "a02",
+        "utterance": "How much is a late checkout?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "late-arrival",
+          "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing $40 (from \"late-arrival\")"
+      },
+      {
+        "id": "a03",
+        "utterance": "Is late check out possible tomorrow?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "late-arrival",
+          "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing 1:00 pm (from \"late-arrival\")"
+      },
+      {
+        "id": "a04",
+        "utterance": "What time can I check in?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkin",
+          "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+        },
+        "pass": true
+      },
+      {
+        "id": "a05",
+        "utterance": "Can I check in early?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkin",
+          "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+        },
+        "pass": true
+      },
+      {
+        "id": "a06",
+        "utterance": "How much is parking per night?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "parking",
+          "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+        },
+        "pass": true
+      },
+      {
+        "id": "a07",
+        "utterance": "Where can I park my big truck?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "parking",
+          "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+        },
+        "pass": true
+      },
+      {
+        "id": "a08",
+        "utterance": "When is breakfast on weekdays?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "breakfast",
+          "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+        },
+        "pass": true
+      },
+      {
+        "id": "a09",
+        "utterance": "What are breakfast hours on Saturday?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "breakfast",
+          "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+        },
+        "pass": true
+      },
+      {
+        "id": "a10",
+        "utterance": "What are the pool hours?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pool",
+          "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+        },
+        "pass": true
+      },
+      {
+        "id": "a11",
+        "utterance": "Can my kids swim without me?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pool",
+          "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+        },
+        "pass": true
+      },
+      {
+        "id": "a12",
+        "utterance": "Are dogs allowed?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pets",
+          "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+        },
+        "pass": true
+      },
+      {
+        "id": "a13",
+        "utterance": "Is there a fee for a pet?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "pets",
+          "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+        },
+        "pass": true
+      },
+      {
+        "id": "a14",
+        "utterance": "What is the wifi password?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "wifi",
+          "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+        },
+        "pass": true
+      },
+      {
+        "id": "a15",
+        "utterance": "What time does the airport shuttle stop running?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "shuttle",
+          "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+        },
+        "pass": true
+      },
+      {
+        "id": "a16",
+        "utterance": "How often does the shuttle come?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "shuttle",
+          "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+        },
+        "pass": true
+      },
+      {
+        "id": "a17",
+        "utterance": "Can I cancel my reservation for free?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "cancel",
+          "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+        },
+        "pass": true
+      },
+      {
+        "id": "a18",
+        "utterance": "Is the gym open at night?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "gym",
+          "reply": "The fitness room is open 24 hours with your room key."
+        },
+        "pass": true
+      },
+      {
+        "id": "a19",
+        "utterance": "Do you have EV chargers?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "ev-charging",
+          "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+        },
+        "pass": true
+      },
+      {
+        "id": "a20",
+        "utterance": "Can I charge my Tesla at the hotel?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "ev-charging",
+          "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+        },
+        "pass": true
+      },
+      {
+        "id": "h01",
+        "utterance": "I want a refund for last night.",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h02",
+        "utterance": "I'd like to file a complaint about noise from the next room.",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h03",
+        "utterance": "Do you have a room with a roll-in shower?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h04",
+        "utterance": "Can you extend my stay by two nights?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h05",
+        "utterance": "Can I smoke on my balcony?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h06",
+        "utterance": "Is there a laundromat nearby?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h07",
+        "utterance": "Do you have guest laundry?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h08",
+        "utterance": "Do you offer laundry service?",
+        "category": "handoff",
+        "result": {
+          "outcome": "handoff",
+          "reason": "no_match",
+          "reply": "I'm not certain about that, so I'll connect you with the front desk."
+        },
+        "pass": true
+      },
+      {
+        "id": "h09",
+        "utterance": "Can you hold my luggage after checkout?",
+        "category": "handoff",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $40, based on availability."
+        },
+        "pass": false,
+        "failure": "unsafe_guess",
+        "detail": "answered from \"checkout\" instead of handing off"
+      },
+      {
+        "id": "h10",
+        "utterance": "Do you provide pool towels?",
+        "category": "handoff",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping"
+          },
+          "reply": "Happy to help with that. Which room are you in?"
+        },
+        "pass": false,
+        "failure": "wrong_action",
+        "detail": "opened a housekeeping work order instead of handing off"
+      },
+      {
+        "id": "h11",
+        "utterance": "I think I left my charger in room 410.",
+        "category": "handoff",
+        "result": {
+          "outcome": "answer",
+          "entryId": "ev-charging",
+          "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+        },
+        "pass": false,
+        "failure": "unsafe_guess",
+        "detail": "answered from \"ev-charging\" instead of handing off"
+      },
+      {
+        "id": "x01",
+        "utterance": "The AC in room 412 isn't working.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "412"
+          },
+          "reply": "Done. I've sent a maintenance request to room 412."
+        },
+        "pass": true
+      },
+      {
+        "id": "x02",
+        "utterance": "Can I get extra towels in 305?",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "305"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 305."
+        },
+        "pass": true
+      },
+      {
+        "id": "x03",
+        "utterance": "Our toilet is clogged, room 220.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "220"
+          },
+          "reply": "Done. I've sent a maintenance request to room 220."
+        },
+        "pass": true
+      },
+      {
+        "id": "x04",
+        "utterance": "Please send more pillows to room 118.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "118"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 118."
+        },
+        "pass": true
+      },
+      {
+        "id": "x05",
+        "utterance": "No hot water in 506.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "506"
+          },
+          "reply": "Done. I've sent a maintenance request to room 506."
+        },
+        "pass": true
+      },
+      {
+        "id": "x06",
+        "utterance": "There's a leak in the ceiling of room 331.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "331"
+          },
+          "reply": "Done. I've sent a maintenance request to room 331."
+        },
+        "pass": true
+      },
+      {
+        "id": "x07",
+        "utterance": "Can housekeeping clean my room? I'm in 207.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping",
+            "room": "207"
+          },
+          "reply": "Done. I've sent a housekeeping request to room 207."
+        },
+        "pass": true
+      },
+      {
+        "id": "x08",
+        "utterance": "The light in 415 is out.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance",
+            "room": "415"
+          },
+          "reply": "Done. I've sent a maintenance request to room 415."
+        },
+        "pass": true
+      },
+      {
+        "id": "x09",
+        "utterance": "My shower doesn't work.",
+        "category": "action",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "maintenance"
+          },
+          "reply": "Happy to help with that. Which room are you in?"
+        },
+        "pass": true
+      }
+    ]
+  },
+  "diff": {
+    "fixed": [
+      {
+        "id": "a06",
+        "utterance": "How much is parking per night?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "parking",
+          "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+        },
+        "pass": true
+      },
+      {
+        "id": "a15",
+        "utterance": "What time does the airport shuttle stop running?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "shuttle",
+          "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+        },
+        "pass": true
+      },
+      {
+        "id": "a19",
+        "utterance": "Do you have EV chargers?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "ev-charging",
+          "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+        },
+        "pass": true
+      },
+      {
+        "id": "a20",
+        "utterance": "Can I charge my Tesla at the hotel?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "ev-charging",
+          "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+        },
+        "pass": true
+      }
+    ],
+    "regressed": [
+      {
+        "before": {
+          "id": "a03",
+          "utterance": "Is late check out possible tomorrow?",
+          "category": "answer",
+          "result": {
+            "outcome": "answer",
+            "entryId": "checkout",
+            "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+          },
+          "pass": true
+        },
+        "after": {
+          "id": "a03",
+          "utterance": "Is late check out possible tomorrow?",
+          "category": "answer",
+          "result": {
+            "outcome": "answer",
+            "entryId": "late-arrival",
+            "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+          },
+          "pass": false,
+          "failure": "wrong_fact",
+          "detail": "missing 1:00 pm (from \"late-arrival\")"
+        }
+      },
+      {
+        "before": {
+          "id": "h11",
+          "utterance": "I think I left my charger in room 410.",
+          "category": "handoff",
+          "result": {
+            "outcome": "handoff",
+            "reason": "no_match",
+            "reply": "I'm not certain about that, so I'll connect you with the front desk."
+          },
+          "pass": true
+        },
+        "after": {
+          "id": "h11",
+          "utterance": "I think I left my charger in room 410.",
+          "category": "handoff",
+          "result": {
+            "outcome": "answer",
+            "entryId": "ev-charging",
+            "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+          },
+          "pass": false,
+          "failure": "unsafe_guess",
+          "detail": "answered from \"ev-charging\" instead of handing off"
+        }
+      }
+    ],
+    "stillFailing": [
+      {
+        "id": "a02",
+        "utterance": "How much is a late checkout?",
+        "category": "answer",
+        "result": {
+          "outcome": "answer",
+          "entryId": "late-arrival",
+          "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+        },
+        "pass": false,
+        "failure": "wrong_fact",
+        "detail": "missing $40 (from \"late-arrival\")"
+      },
+      {
+        "id": "h09",
+        "utterance": "Can you hold my luggage after checkout?",
+        "category": "handoff",
+        "result": {
+          "outcome": "answer",
+          "entryId": "checkout",
+          "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $40, based on availability."
+        },
+        "pass": false,
+        "failure": "unsafe_guess",
+        "detail": "answered from \"checkout\" instead of handing off"
+      },
+      {
+        "id": "h10",
+        "utterance": "Do you provide pool towels?",
+        "category": "handoff",
+        "result": {
+          "outcome": "action",
+          "action": {
+            "type": "create_work_order",
+            "dept": "housekeeping"
+          },
+          "reply": "Happy to help with that. Which room are you in?"
+        },
+        "pass": false,
+        "failure": "wrong_action",
+        "detail": "opened a housekeeping work order instead of handing off"
+      }
+    ],
+    "stillPassing": 31
+  }
+}
