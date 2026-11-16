@@ -1,5 +1,6 @@
 {
   "agent": "mock",
+  "runs": 1,
   "live": {
     "kb": "live",
     "metrics": {
@@ -7,7 +8,8 @@
       "passed": 33,
       "passRate": 0.825,
       "answerAccuracy": 0.75,
-      "unsafeGuessRate": 0.18181818181818182,
+      "unsafeGuessRate": 0.09090909090909091,
+      "wrongActionRate": 0.025,
       "wrongFactRate": 0.15,
       "actionAccuracy": 1,
       "byCategory": {
@@ -527,7 +529,8 @@
       "passed": 35,
       "passRate": 0.875,
       "answerAccuracy": 0.9,
-      "unsafeGuessRate": 0.2727272727272727,
+      "unsafeGuessRate": 0.18181818181818182,
+      "wrongActionRate": 0.025,
       "wrongFactRate": 0.1,
       "actionAccuracy": 1,
       "byCategory": {
@@ -1182,5 +1185,1159 @@
       }
     ],
     "stillPassing": 31
+  },
+  "kbDiff": {
+    "entries": [
+      {
+        "id": "checkin",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "checkout",
+        "status": "changed",
+        "keywordsAdded": [],
+        "keywordsRemoved": [
+          "late checkout",
+          "late check out"
+        ],
+        "factsRemoved": [
+          "$25"
+        ],
+        "factsAdded": [
+          "$40"
+        ]
+      },
+      {
+        "id": "parking",
+        "status": "changed",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [
+          "$32"
+        ],
+        "factsAdded": [
+          "$38"
+        ]
+      },
+      {
+        "id": "breakfast",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "pool",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "pets",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "wifi",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "shuttle",
+        "status": "changed",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [
+          "11:00 pm"
+        ],
+        "factsAdded": [
+          "midnight"
+        ]
+      },
+      {
+        "id": "cancel",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "gym",
+        "status": "unchanged",
+        "keywordsAdded": [],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": []
+      },
+      {
+        "id": "late-arrival",
+        "status": "added",
+        "keywordsAdded": [
+          "late",
+          "late check",
+          "after hours"
+        ],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": [
+          "24 hours",
+          "midnight"
+        ]
+      },
+      {
+        "id": "ev-charging",
+        "status": "added",
+        "keywordsAdded": [
+          "ev",
+          "ev charging",
+          "electric vehicle",
+          "charger",
+          "charging",
+          "tesla"
+        ],
+        "keywordsRemoved": [],
+        "factsRemoved": [],
+        "factsAdded": [
+          "$0.30"
+        ]
+      }
+    ]
+  },
+  "sweep": [],
+  "replay": [
+    {
+      "id": "c01",
+      "utterance": "What time is checkout?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $40, based on availability."
+      },
+      "kind": "expected_update",
+      "reason": "\"checkout\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c02",
+      "utterance": "How much is a late checkout?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "late-arrival",
+        "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+      },
+      "kind": "needs_review",
+      "reason": "now answered by \"late-arrival\" instead of \"checkout\""
+    },
+    {
+      "id": "c03",
+      "utterance": "Is late check out possible tomorrow?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "late-arrival",
+        "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+      },
+      "kind": "needs_review",
+      "reason": "now answered by \"late-arrival\" instead of \"checkout\""
+    },
+    {
+      "id": "c04",
+      "utterance": "What time can I check in?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c05",
+      "utterance": "Can I check in early?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c06",
+      "utterance": "How much is parking per night?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "kind": "expected_update",
+      "reason": "\"parking\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c07",
+      "utterance": "Where can I park my big truck?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "kind": "expected_update",
+      "reason": "\"parking\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c08",
+      "utterance": "When is breakfast on weekdays?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c09",
+      "utterance": "What are breakfast hours on Saturday?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c10",
+      "utterance": "What are the pool hours?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "pool",
+        "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "pool",
+        "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c11",
+      "utterance": "Can my kids swim without me?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "pool",
+        "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "pool",
+        "reply": "The pool is open 7:00 AM to 10:00 PM. Children under 14 need an adult."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c12",
+      "utterance": "Are dogs allowed?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c13",
+      "utterance": "Is there a fee for a pet?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c14",
+      "utterance": "What is the wifi password?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "wifi",
+        "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "wifi",
+        "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c15",
+      "utterance": "What time does the airport shuttle stop running?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to 11:00 PM."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+      },
+      "kind": "expected_update",
+      "reason": "\"shuttle\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c16",
+      "utterance": "How often does the shuttle come?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to 11:00 PM."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+      },
+      "kind": "expected_update",
+      "reason": "\"shuttle\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c17",
+      "utterance": "Can I cancel my reservation for free?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "cancel",
+        "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "cancel",
+        "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c18",
+      "utterance": "Is the gym open at night?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "gym",
+        "reply": "The fitness room is open 24 hours with your room key."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "gym",
+        "reply": "The fitness room is open 24 hours with your room key."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c19",
+      "utterance": "Do you have EV chargers?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c20",
+      "utterance": "Can I charge my Tesla at the hotel?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c21",
+      "utterance": "I want a refund for last night.",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c22",
+      "utterance": "I'd like to file a complaint about noise from the next room.",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c23",
+      "utterance": "Do you have a room with a roll-in shower?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c24",
+      "utterance": "Can you extend my stay by two nights?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c25",
+      "utterance": "Can I smoke on my balcony?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c26",
+      "utterance": "Is there a laundromat nearby?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c27",
+      "utterance": "Do you have guest laundry?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c28",
+      "utterance": "Do you offer laundry service?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c29",
+      "utterance": "Can you hold my luggage after checkout?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $40, based on availability."
+      },
+      "kind": "expected_update",
+      "reason": "\"checkout\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c30",
+      "utterance": "Do you provide pool towels?",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping"
+        },
+        "reply": "Happy to help with that. Which room are you in?"
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping"
+        },
+        "reply": "Happy to help with that. Which room are you in?"
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c31",
+      "utterance": "I think I left my charger in room 410.",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c32",
+      "utterance": "The AC in room 412 isn't working.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "412"
+        },
+        "reply": "Done. I've sent a maintenance request to room 412."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "412"
+        },
+        "reply": "Done. I've sent a maintenance request to room 412."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c33",
+      "utterance": "Can I get extra towels in 305?",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "305"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 305."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "305"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 305."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c34",
+      "utterance": "Our toilet is clogged, room 220.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "220"
+        },
+        "reply": "Done. I've sent a maintenance request to room 220."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "220"
+        },
+        "reply": "Done. I've sent a maintenance request to room 220."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c35",
+      "utterance": "Please send more pillows to room 118.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "118"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 118."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "118"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 118."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c36",
+      "utterance": "No hot water in 506.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "506"
+        },
+        "reply": "Done. I've sent a maintenance request to room 506."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "506"
+        },
+        "reply": "Done. I've sent a maintenance request to room 506."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c37",
+      "utterance": "There's a leak in the ceiling of room 331.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "331"
+        },
+        "reply": "Done. I've sent a maintenance request to room 331."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "331"
+        },
+        "reply": "Done. I've sent a maintenance request to room 331."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c38",
+      "utterance": "Can housekeeping clean my room? I'm in 207.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "207"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 207."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "207"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 207."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c39",
+      "utterance": "The light in 415 is out.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "415"
+        },
+        "reply": "Done. I've sent a maintenance request to room 415."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "415"
+        },
+        "reply": "Done. I've sent a maintenance request to room 415."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c40",
+      "utterance": "My shower doesn't work.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance"
+        },
+        "reply": "Happy to help with that. Which room are you in?"
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance"
+        },
+        "reply": "Happy to help with that. Which room are you in?"
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c41",
+      "utterance": "Is it 40 bucks for a late checkout?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "late-arrival",
+        "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+      },
+      "kind": "needs_review",
+      "reason": "now answered by \"late-arrival\" instead of \"checkout\""
+    },
+    {
+      "id": "c42",
+      "utterance": "Can I get a late checkout on Sunday?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkout",
+        "reply": "Checkout is at 11:00 AM. Late checkout until 1:00 PM is $25, based on availability."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "late-arrival",
+        "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+      },
+      "kind": "needs_review",
+      "reason": "now answered by \"late-arrival\" instead of \"checkout\""
+    },
+    {
+      "id": "c43",
+      "utterance": "How much does parking cost?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "kind": "expected_update",
+      "reason": "\"parking\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c44",
+      "utterance": "Do you have a garage?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $32 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "parking",
+        "reply": "Self-parking is $38 per night with in and out privileges. Oversized vehicles do not fit the garage."
+      },
+      "kind": "expected_update",
+      "reason": "\"parking\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c45",
+      "utterance": "What time does the last shuttle leave?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to 11:00 PM."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "shuttle",
+        "reply": "The free airport shuttle runs every 30 minutes from 5:00 AM to midnight."
+      },
+      "kind": "expected_update",
+      "reason": "\"shuttle\" was edited and the reply reflects it"
+    },
+    {
+      "id": "c46",
+      "utterance": "Is breakfast included?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "breakfast",
+        "reply": "Complimentary breakfast is served 6:30 to 9:30 AM on weekdays and 7:00 to 10:00 AM on weekends."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c47",
+      "utterance": "Can I bring my cat?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "pets",
+        "reply": "Dogs under 40 lbs are welcome for a $75 one-time fee. Other pets are not allowed."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c48",
+      "utterance": "Is there internet in the rooms?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "wifi",
+        "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "wifi",
+        "reply": "Wi-Fi is free. Connect to CedarGuest and sign in with your room number and last name."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c49",
+      "utterance": "What is the cancellation policy?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "cancel",
+        "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "cancel",
+        "reply": "Reservations can be cancelled free of charge up to 48 hours before arrival."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c50",
+      "utterance": "Is the fitness center open 24 hours?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "gym",
+        "reply": "The fitness room is open 24 hours with your room key."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "gym",
+        "reply": "The fitness room is open 24 hours with your room key."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c51",
+      "utterance": "What time is early arrival allowed?",
+      "live": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "checkin",
+        "reply": "Check-in starts at 3:00 PM. Early check-in is based on availability, and the front desk can note your request."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c52",
+      "utterance": "Do you have a charging station for my car?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c53",
+      "utterance": "I lost my phone charger.",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c54",
+      "utterance": "Will someone be at the desk if I arrive after hours?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "late-arrival",
+        "reply": "The front desk is staffed 24 hours. If you arrive after midnight, use the side entrance and call the desk."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"late-arrival\" instead of a hand-off: confirm"
+    },
+    {
+      "id": "c55",
+      "utterance": "Do you have a spa?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c56",
+      "utterance": "I need a taxi to the train station.",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c57",
+      "utterance": "Can you recommend a restaurant?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c58",
+      "utterance": "The TV in room 210 is broken.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "210"
+        },
+        "reply": "Done. I've sent a maintenance request to room 210."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "maintenance",
+          "room": "210"
+        },
+        "reply": "Done. I've sent a maintenance request to room 210."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c59",
+      "utterance": "Send a towel to room 305.",
+      "live": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "305"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 305."
+      },
+      "draft": {
+        "outcome": "action",
+        "action": {
+          "type": "create_work_order",
+          "dept": "housekeeping",
+          "room": "305"
+        },
+        "reply": "Done. I've sent a housekeeping request to room 305."
+      },
+      "kind": "unchanged"
+    },
+    {
+      "id": "c60",
+      "utterance": "Where can I leave my EV overnight?",
+      "live": {
+        "outcome": "handoff",
+        "reason": "no_match",
+        "reply": "I'm not certain about that, so I'll connect you with the front desk."
+      },
+      "draft": {
+        "outcome": "answer",
+        "entryId": "ev-charging",
+        "reply": "Two Level 2 EV chargers are in the garage at $0.30 per kWh, first come first served."
+      },
+      "kind": "needs_review",
+      "reason": "newly answered by \"ev-charging\" instead of a hand-off: confirm"
+    }
+  ],
+  "gate": {
+    "blocked": true,
+    "reasons": [
+      "2 previously passing golden call(s) now fail: a03, h11",
+      "unsafe-guess rate rose 9% -> 18%",
+      "11 replayed call(s) need a manager's confirmation: c02, c03, c19, c20, c31, c41, c42, c52, c53, c54, c60"
+    ]
   }
 }
