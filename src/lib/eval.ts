@@ -17,12 +17,14 @@ export function computeMetrics(cases: CaseResult[]): Metrics {
     }),
   ) as Metrics["byCategory"];
   const passed = cases.filter((c) => c.pass).length;
+  const wrongActions = cases.filter((c) => c.failure === "wrong_action").length;
   return {
     total: cases.length,
     passed,
     passRate: rate(passed, cases.length),
     answerAccuracy: rate(byCategory.answer.passed, byCategory.answer.total),
-    unsafeGuessRate: rate(byCategory.handoff.total - byCategory.handoff.passed, byCategory.handoff.total),
+    unsafeGuessRate: rate(cases.filter((c) => c.failure === "unsafe_guess").length, byCategory.handoff.total),
+    wrongActionRate: rate(wrongActions, cases.length),
     wrongFactRate: rate(cases.filter((c) => c.failure === "wrong_fact").length, byCategory.answer.total),
     actionAccuracy: rate(byCategory.action.passed, byCategory.action.total),
     byCategory,
@@ -38,6 +40,30 @@ export async function runEval(
   const results: CaseResult[] = [];
   for (const c of cases) results.push(grade(c, await agent(c.utterance, kb)));
   return { kb: kbId, metrics: computeMetrics(results), cases: results };
+}
+
+/**
+ * Run the suite `runs` times and take a majority vote per case. A case counts as
+ * failed only if it failed in most runs; failing in some but not most marks it flaky
+ * (reported, never blocking). With runs = 1 this is identical to runEval.
+ */
+export async function runEvalVoted(
+  kbId: keyof typeof kbVersions,
+  agent: Agent = mockAgent,
+  runs = 1,
+  cases: GoldenCase[] = goldenCases,
+): Promise<RunReport> {
+  if (runs <= 1) return runEval(kbId, agent, cases);
+  const all: RunReport[] = [];
+  for (let i = 0; i < runs; i++) all.push(await runEval(kbId, agent, cases));
+  const voted: CaseResult[] = cases.map((_, idx) => {
+    const each = all.map((r) => r.cases[idx]);
+    const failures = each.filter((c) => !c.pass).length;
+    const failed = failures * 2 > runs;
+    const pick = each.find((c) => c.pass === !failed)!;
+    return { ...pick, failures, runs, flaky: failures > 0 && !failed };
+  });
+  return { kb: kbId, metrics: computeMetrics(voted), cases: voted };
 }
 
 export function diffRuns(before: RunReport, after: RunReport): Diff {
