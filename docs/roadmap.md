@@ -1,10 +1,12 @@
 # Roadmap
 
 ## Now (shipped in this MVP)
-- Golden set, grader, KB diff, publish gate, missed-question queue, report-card UI, optional model mode.
+- Golden set, grader, publish gate, missed-question queue, report-card UI.
+- Label-free publish check: KB diff, derived checks, call replay, stale-value sweep, enforced guardrails, majority-vote model mode.
 
 ## Next
-- Seed golden cases from real, de-identified call transcripts; weight by volume.
+- Replace the synthetic replay list with a rolling window of real, de-identified calls; weight by volume.
+- Run model mode and publish the mock-vs-model comparison.
 - Run automatically on every KB edit; show the diff inline in the editor.
 - Approve-an-answer flow that turns a queue cluster into a KB entry and re-runs the suite.
 - Embedding-based clustering for the queue.

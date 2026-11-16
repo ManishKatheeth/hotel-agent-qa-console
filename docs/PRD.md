@@ -26,7 +26,10 @@ Hotel AI agents answer calls and create work orders from a staff-maintained know
 | R3 | Compare two KB versions: fixed, regressed, still failing | Done |
 | R4 | Publish gate that fails on any regression | Done (`--gate`) |
 | R5 | Missed-question queue clustered by theme, answers left to a manager | Done |
-| R6 | Same suite runs against a real model | Scaffolded, not run |
+| R6 | Same suite runs against a real model, with repeated runs and majority vote | Built, not yet run (needs a gateway key) |
+| R7 | Label-free publish check: derive checks from the KB diff and replay unlabeled calls | Done |
+| R8 | Stale-value sweep across entries | Done |
+| R9 | Gate enforces unsafe-guess and action-accuracy guardrails; items needing review are confirmed by a manager | Done |
 
 ## User stories
 - As a manager, when I change the parking rate, I see every call whose answer changed and whether it is now right.
@@ -37,7 +40,7 @@ Hotel AI agents answer calls and create work orders from a staff-maintained know
 See [metrics.md](metrics.md). North star: share of KB publishes with zero regressions on the golden set.
 
 ## Risks
-- Golden set coverage: 40 synthetic cases do not represent real calls. Mitigation: seed from real transcripts, weight by volume.
+- Golden set coverage: 40 synthetic cases do not represent real calls, and a hand-written set goes stale. Mitigation: the label-free replay needs no expected answers; seed the call log from real de-identified calls.
 - Mock agent differs from production. Mitigation: model mode, and treat absolute numbers as illustrative.
 - Over-blocking: strict gate slows managers. Mitigation: allow a documented override with a reason.
 
